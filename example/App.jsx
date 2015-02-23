@@ -45,10 +45,8 @@ var App = React.createClass({
                 </JSXView>
               </div>
             </div>
-
           </div>
         </div>
-
       </div>
     );
   },

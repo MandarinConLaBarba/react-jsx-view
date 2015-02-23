@@ -15,8 +15,6 @@
     "example": "example"
   },
   "dependencies": {
-    "lodash": "^3.2.0",
-    "object-assign": "^2.0.0"
   },
   "peerDependencies": {
     "react": "^0.12.2"
@@ -26,7 +24,6 @@
     "grunt-browserify": "^3.3.0",
     "grunt-contrib-watch": "^0.6.1",
     "react": "^0.12.2",
-    "react-tree-menu": "^1.1.1",
     "reactify": "^1.0.0"
   },
   "scripts": {
