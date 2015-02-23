@@ -25,7 +25,7 @@ var JSXView = require('react-tree-menu');
 
 ```
 
-This will render the JSX representation, with all the props (explicit + default props merged:
+This will render the JSX representation, with all the props (explicit + default) merged:
 
 ```
 
