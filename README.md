@@ -53,3 +53,7 @@ Example:
  ["SomeComponent.prop1", "SomeComponent.prop2"]
 ```
 
+### onPropMouseOver={Function}
+
+Function that's fired when an object or function is moused over
+
