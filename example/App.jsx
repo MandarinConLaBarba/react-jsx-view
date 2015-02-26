@@ -5,7 +5,9 @@ var React = require('react'),
 var App = React.createClass({
 
   getInitialState: function() {
-    return {};
+    return {
+      propDetails: "Hover over some props in the JSX to the right.."
+    };
   },
 
   render: function() {
@@ -28,10 +30,22 @@ var App = React.createClass({
 
         <div className="row">
           <div className="col-lg-6">
-            <div className="panel panel-default">
-              <div className="panel-heading"><h4 className="panel-title">{"Components"}</h4></div>
-              <div className="panel-body">
-                {sample}
+            <div className="row">
+              <div className="panel panel-default">
+                <div className="panel-heading"><h4 className="panel-title">{"Components"}</h4></div>
+                <div className="panel-body">
+                  {sample}
+                </div>
+              </div>
+
+            </div>
+
+            <div className="row">
+              <div className="panel panel-default">
+                <div className="panel-heading"><h4 className="panel-title">{"Prop Details"}</h4></div>
+                <div className="panel-body">
+                  <code>{this._getPropDetailString()}</code>
+                </div>
               </div>
             </div>
 
@@ -40,7 +54,7 @@ var App = React.createClass({
             <div className="panel panel-default">
               <div className="panel-heading"><h4 className="panel-title">{"JSX"}</h4></div>
               <div className="panel-body">
-                <JSXView>
+                <JSXView onPropMouseOver={function(details) { this.setState({propDetails: details})}.bind(this)}>
                   {sample}
                 </JSXView>
               </div>
@@ -51,19 +65,31 @@ var App = React.createClass({
     );
   },
 
+  _getPropDetailString: function () {
+
+    var details = this.state.propDetails;
+    if (typeof details === "object") return JSON.stringify(details);
+    if (typeof details === "function") return details.toString();
+
+    return details;
+
+  },
+
   _getSample: function () {
 
     var buttonText = [
       "Destroy the Replicants",
       "Save the Replicants",
       "Travel to the Offworld",
-      "Play Chess with Sebastian"];
+      "Play Chess with Sebastian"
+    ];
 
     return (
       <div className="btn-group-vertical btn-group-lg text-center">
         {buttonText.map(function (txt, indx) {
           return this._getButtonNode(indx, txt);
         }.bind(this))}
+        <div style={{position: 'relative', top: 10, border: '1px solid #000', borderRadius: 3, padding: 5}}><button className="btn btn-default">Fly Hover Car</button></div>
       </div>
     );
   },
@@ -74,7 +100,9 @@ var App = React.createClass({
         'active': this.state["button" + number + "Pressed"]
     });
 
-    return <button key={"button-" + number}
+    var colors = ["487765", "3B4338", "A51E18","D0BD95"];
+
+    return <button style={{color: "#" + colors[number], backgroundColor: "#DA944E"}} key={"button-" + number}
       className={className}
       onClick={this._toggleButton.bind(this, number)}>{text}</button>
   },

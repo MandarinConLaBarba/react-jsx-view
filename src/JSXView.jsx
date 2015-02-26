@@ -15,44 +15,36 @@ var elementTypes = "a abbr address area article aside audio b base bdi bdo big b
 
 var margin = 30;
 
-var JSXRenderer = React.createClass({
+var JSXView = React.createClass({
 
   propTypes: {
-    excludedAttributes : React.PropTypes.array
+    excludedAttributes: React.PropTypes.array,
+    onPropMouseOver: React.PropTypes.func
   },
 
   getDefaultProps: function () {
     return {
-      excludedAttributes: []
+      excludedAttributes: [],
+      onPropMouseOver: function (propDetails) {
+        console.log("Prop details:");
+        console.log(propDetails);
+      }
     };
   },
 
   getInitialState: function () {
-    return {
-      propDetail: null
-    }
+    return {}
   },
 
   render: function () {
 
     return (
       <div style={{position: "relative"}}>
-        {this._getPropDetailNode()}
         <code>
           {this._getChildren()}
         </code>
       </div>
     );
-  },
-
-  _getPropDetailNode: function () {
-
-    if (!this.state.propDetail) return null;
-
-    var styles = {position: "absolute"};
-
-    return <div style={styles}></div>;
-
   },
 
   _getChildren: function (children) {
@@ -73,8 +65,11 @@ var JSXRenderer = React.createClass({
         markupLiteral = this._getEmptyNode(child)
         var grandkids = child.props.children;
 
-        if (grandkids && grandkids.length) {
-          markupLiteral = this._getNodeWithChildren(child);
+        if (grandkids) {
+          if (!Array.isArray(grandkids)) grandkids = [grandkids];
+          if (grandkids.length) {
+            markupLiteral = this._getNodeWithChildren(child);
+          }
         }
       }
 
@@ -148,33 +143,37 @@ var JSXRenderer = React.createClass({
     for (var prop in child.props) {
       if (child.props.hasOwnProperty(prop)) {
         if (excluded.indexOf(prop) >= 0) continue;
-        var leftSide = child.props[prop];
+        var rightSide = child.props[prop];
 
-        var typeOf = typeof leftSide;
+        var typeOf = typeof rightSide;
 
         if (typeOf === "string") {
-          leftSide = "\"" + leftSide + "\"";
+          rightSide = "\"" + rightSide + "\"";
         } else if (typeOf === "boolean" || typeOf === "number") {
           //nothing to do
         } else if (typeOf === "function") {
-          leftSide = "function(){}"
-        } else if (Array.isArray(leftSide)) {
-          leftSide = "[]";
+          rightSide = this._getPropDetailLinkNode("function(){}", rightSide);;
+        } else if (Array.isArray(rightSide)) {
+          rightSide = "[]";
         } else {
-          leftSide = "{}";
+          rightSide = this._getPropDetailLinkNode("...", rightSide);
         }
 
-        leftSide = "{" + leftSide + "}";
+        rightSide = typeof rightSide === "string" ? "{" + rightSide + "}" : ["{", rightSide, "}"];
 
-        keyVals.push([prop, "=", leftSide].join(""));
+        keyVals.push([prop, "=", rightSide]);
       }
     }
 
-    if (keyVals.length && appendCloser) keyVals[keyVals.length - 1] = keyVals[keyVals.length - 1] + appendCloser;
-
-    return keyVals.map(function (keyVal) {
-      return <div>{keyVal}</div>;
+    return keyVals.map(function (keyVal, indx) {
+      var closerNode = null;
+      if (appendCloser && indx === (keyVals.length - 1)) closerNode = appendCloser;
+      return <div>{keyVal}<span>{closerNode}</span></div>;
     });
+  },
+
+  _getPropDetailLinkNode: function (text, content) {
+    return <a onMouseOver={this.props.onPropMouseOver.bind(null, content)}>{text}</a>;
   },
 
   _getClosingNode: function (child) {
@@ -203,4 +202,4 @@ var JSXRenderer = React.createClass({
 
 });
 
-module.exports = JSXRenderer;
+module.exports = JSXView;

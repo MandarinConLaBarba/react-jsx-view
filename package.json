@@ -1,6 +1,6 @@
 {
   "name": "react-jsx-view",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Renders children as jsx markup",
   "main": "index.js",
   "keywords": [
