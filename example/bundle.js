@@ -55,6 +55,7 @@ var App = React.createClass({displayName: "App",
             React.createElement("div", {className: "panel panel-default"}, 
               React.createElement("div", {className: "panel-heading"}, React.createElement("h4", {className: "panel-title"}, "JSX")), 
               React.createElement("div", {className: "panel-body"}, 
+                React.createElement("h5", null, "Hover over the ", React.createElement("code", null, "style"), " props to inspect."), 
                 React.createElement(JSXView, {onPropMouseOver: function(details) { this.setState({propDetails: details})}.bind(this)}, 
                   sample
                 )
