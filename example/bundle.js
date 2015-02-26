@@ -103,7 +103,7 @@ var App = React.createClass({displayName: "App",
 
     var colors = ["487765", "3B4338", "A51E18","D0BD95"];
 
-    return React.createElement("button", {style: {color: "#" + colors[number], backgroundColor: "#DA944E"}, key: "button-" + number, 
+    return React.createElement("button", {style: {color: "#" + colors[number], backgroundColor: "#FFEDDB"}, key: "button-" + number, 
       className: className, 
       onClick: this._toggleButton.bind(this, number)}, text)
   },
