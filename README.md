@@ -14,7 +14,7 @@ npm install --save react-jsx-view
 
 ```
 
-var JSXView = require('react-tree-menu');
+var JSXView = require('react-jsx-view');
 
     ...
 
